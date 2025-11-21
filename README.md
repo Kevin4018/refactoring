@@ -215,7 +215,7 @@ Hover — don't click — and a popup will appear mentioning what the problem is
 
 ### **Important: Add, commit, and push your changes.**
 
-- [ ] When you are done, commit your work with **a commit message that includes the string `Task 1.1`**.
+- [x] When you are done, commit your work with **a commit message that includes the string `Task 1.1`**.
 
 > **Very Important:** we'll be looking for the string `Task 1.1` in your git log of commit messages in the MarkUs autotests!
 
@@ -231,7 +231,7 @@ As highlighted already, the emphasis in this assignment is on the process of per
 refactoring. To document this process, you will also maintain a record of your git log in your
 repository.
 
-- [ ] Run the command `git log --oneline` in the terminal and copy+paste the output into
+- [x] Run the command `git log --oneline` in the terminal and copy+paste the output into
   the `log.txt` file to replace all of its contents.
   - Alternatively, make sure your terminal is open in your project directory,
     and you can run `git log --oneline > log.txt` to replace the contents of the `log.txt` file
