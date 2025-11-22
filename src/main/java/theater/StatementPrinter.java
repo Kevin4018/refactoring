@@ -31,7 +31,7 @@ public class StatementPrinter {
 
         int totalAmount = getTotalAmount();
 
-        int volumeCredits = getVolumeCredits();
+        int volumeCredits = getTotalVolumeCredits();
 
         for (Performance p : invoice.getPerformances()) {
         int amount = getAmount(p);
@@ -55,14 +55,15 @@ public class StatementPrinter {
         return totalAmount;
     }
 
-    @SuppressWarnings({"checkstyle:RegexpMultiline", "checkstyle:SuppressWarnings"})
-    private int getVolumeCredits() {
-        int volumeCredits = 0;
-        for (Performance p : invoice.getPerformances()) {
-            volumeCredits += getVolumeCredits(p);
-        }
-        return volumeCredits;
+    @SuppressWarnings({"checkstyle:RegexpMultiline", "checkstyle:SuppressWarnings", "checkstyle:Indentation"})
+    private int getTotalVolumeCredits() {
+    int volumeCredits = 0;
+    for (Performance p : invoice.getPerformances()) {
+        volumeCredits += getVolumeCredits(p);
     }
+    return volumeCredits;
+}
+
 
 
     @SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:SuppressWarnings"})
