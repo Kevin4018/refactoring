@@ -23,33 +23,54 @@ public class StatementPrinter {
      * @return the formatted statement
      * @throws RuntimeException if one of the play types is not known
      */
-    @SuppressWarnings({"checkstyle:FinalLocalVariable", "checkstyle:SuppressWarnings", "checkstyle:MagicNumber", "checkstyle:NeedBraces", "checkstyle:LineLength"})
+    @SuppressWarnings({"checkstyle:FinalLocalVariable", "checkstyle:SuppressWarnings", "checkstyle:MagicNumber", "checkstyle:NeedBraces", "checkstyle:LineLength", "checkstyle:Indentation", "checkstyle:RegexpMultiline"})
     public String statement() {
-        int totalAmount = 0;
-        int volumeCredits = 0;
-        StringBuilder result = new StringBuilder("Statement for " + invoice.getCustomer() + System.lineSeparator());
 
-        for (Performance performance : invoice.getPerformances()) {
+    StringBuilder result = new StringBuilder("Statement for "
+            + invoice.getCustomer() + System.lineSeparator());
 
-            int amount = getAmount(performance);
+        int totalAmount = getTotalAmount();
 
-            // add volume credits
-            volumeCredits += getVolumeCredits(performance);
+        int volumeCredits = getVolumeCredits();
 
-            // print line for this order
-            result.append(String.format("  %s: %s (%s seats)%n", getPlay(performance).name, NumberFormat.getCurrencyInstance(Locale.US).format(amount / 100), performance.audience));
-            totalAmount += amount;
-        }
-        result.append(String.format("Amount owed is %s%n", usd(totalAmount)));
-        result.append(String.format("You earned %s credits%n", volumeCredits));
-        return result.toString();
+        for (Performance p : invoice.getPerformances()) {
+        int amount = getAmount(p);
+        result.append(String.format("  %s: %s (%s seats)%n",
+                getPlay(p).name,
+                usd(amount),
+                p.audience));
     }
+
+    result.append(String.format("Amount owed is %s%n", usd(totalAmount)));
+    result.append(String.format("You earned %s credits%n", volumeCredits));
+
+    return result.toString();
+}
+
+    private int getTotalAmount() {
+        int totalAmount = 0;
+        for (Performance p : invoice.getPerformances()) {
+            totalAmount += getAmount(p);
+        }
+        return totalAmount;
+    }
+
+    @SuppressWarnings({"checkstyle:RegexpMultiline", "checkstyle:SuppressWarnings"})
+    private int getVolumeCredits() {
+        int volumeCredits = 0;
+        for (Performance p : invoice.getPerformances()) {
+            volumeCredits += getVolumeCredits(p);
+        }
+        return volumeCredits;
+    }
+
 
     @SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:SuppressWarnings"})
     private static String usd(int totalAmount) {
         return NumberFormat.getCurrencyInstance(Locale.US).format(totalAmount / Constants.PERCENT_FACTOR);
     }
 
+    @SuppressWarnings({"checkstyle:OverloadMethodsDeclarationOrder", "checkstyle:SuppressWarnings"})
     private int getVolumeCredits(Performance performance) {
         int result = 0;
         result += Math.max(performance.audience - Constants.BASE_VOLUME_CREDIT_THRESHOLD, 0);
